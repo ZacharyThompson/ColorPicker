@@ -19,7 +19,7 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="100dp">
+            android:layout_height="75dp">
 
             <Switch
                 android:id="@+id/redSwitch"
@@ -63,7 +63,7 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="100dp">
+            android:layout_height="75dp">
 
             <Switch
                 android:id="@+id/greenSwitch"
@@ -106,7 +106,7 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="100dp">
+            android:layout_height="75dp">
 
             <Switch
                 android:id="@+id/blueSwitch"
@@ -159,7 +159,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/linearLayout"
-        app:layout_constraintVertical_bias="0.85" />
+        app:layout_constraintVertical_bias="0.6" />
 
     <View
         android:id="@+id/colorDivider"
@@ -168,7 +168,6 @@
         android:background="?android:attr/listDivider"
         app:layout_constraintBottom_toTopOf="@+id/linearLayout"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.496"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
     <!--android:backgroundTint="@color/displayColor"-->
