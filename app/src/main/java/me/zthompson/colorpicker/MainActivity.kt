@@ -124,9 +124,9 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun updateColorDisplay() {
-        var r = if (redOn) redComponent else 0
-        var g = if (greenOn) greenComponent else 0
-        var b = if (blueOn) blueComponent else 0
+        val r = if (redOn) redComponent else 0
+        val g = if (greenOn) greenComponent else 0
+        val b = if (blueOn) blueComponent else 0
         colorDivider.setBackgroundColor(Color.rgb(r, g, b))
     }
 }
