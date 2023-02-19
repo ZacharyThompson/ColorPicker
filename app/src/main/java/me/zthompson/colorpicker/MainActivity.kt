@@ -33,7 +33,6 @@ class MainActivity : AppCompatActivity() {
         redTextView = findViewById(R.id.redTextView)
         redSwitch = findViewById(R.id.redSwitch)
         redSwitch.setOnClickListener {
-            val switch: Switch = (it as Switch)
             updateColorDisplay()
         }
         redSeekBar = findViewById(R.id.redSeekBar)
@@ -51,7 +50,6 @@ class MainActivity : AppCompatActivity() {
         greenTextView = findViewById(R.id.greenTextView)
         greenSwitch = findViewById(R.id.greenSwitch)
         greenSwitch.setOnClickListener {
-            val switch: Switch = (it as Switch)
             updateColorDisplay()
         }
         greenSeekBar = findViewById(R.id.greenSeekBar)
@@ -69,7 +67,6 @@ class MainActivity : AppCompatActivity() {
         blueTextView = findViewById(R.id.blueTextView)
         blueSwitch = findViewById(R.id.blueSwitch)
         blueSwitch.setOnClickListener {
-            val switch: Switch = (it as Switch)
             updateColorDisplay()
         }
         blueSeekBar = findViewById(R.id.blueSeekBar)
