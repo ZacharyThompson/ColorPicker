@@ -99,7 +99,7 @@ class MainActivity : AppCompatActivity() {
         colorDivider = findViewById(R.id.colorDivider)
         colorDivider.setBackgroundColor(Color.BLACK)
         colorDivider.setOnClickListener{
-            Toast.makeText(this, "The Color is: ", Toast.LENGTH_SHORT).show()
+            //Toast.makeText(this, "The Color is: ", Toast.LENGTH_SHORT).show()
         }
 
         resetButton = findViewById(R.id.resetButton)
