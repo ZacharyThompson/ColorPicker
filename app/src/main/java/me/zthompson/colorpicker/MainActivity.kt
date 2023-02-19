@@ -14,20 +14,14 @@ class MainActivity : AppCompatActivity() {
     private lateinit var redSwitch: Switch
     private lateinit var redSeekBar: SeekBar
     private lateinit var redTextView: TextView
-    private var redComponent: Int = 0
-    private var redOn: Boolean = true
 
     private lateinit var greenSwitch: Switch
     private lateinit var greenSeekBar: SeekBar
     private lateinit var greenTextView: TextView
-    private var greenComponent: Int = 0
-    private var greenOn: Boolean = true
 
     private lateinit var blueSwitch: Switch
     private lateinit var blueSeekBar: SeekBar
     private lateinit var blueTextView: TextView
-    private var blueComponent: Int = 0
-    private var blueOn: Boolean = true
 
     private lateinit var resetButton: Button
 
@@ -40,7 +34,6 @@ class MainActivity : AppCompatActivity() {
         redSwitch = findViewById(R.id.redSwitch)
         redSwitch.setOnClickListener {
             val switch: Switch = (it as Switch)
-            redOn = switch.isChecked
             updateColorDisplay()
         }
         redSeekBar = findViewById(R.id.redSeekBar)
@@ -48,7 +41,6 @@ class MainActivity : AppCompatActivity() {
             override fun onProgressChanged (seekBar: SeekBar, progress: Int, fromUser: Boolean){
                 val number = progress.toFloat() / 255.0
                 redTextView.text = String.format("%.2f", number)
-                redComponent = progress
                 updateColorDisplay()
             }
             override fun onStartTrackingTouch(seekBar: SeekBar) {}
@@ -60,7 +52,6 @@ class MainActivity : AppCompatActivity() {
         greenSwitch = findViewById(R.id.greenSwitch)
         greenSwitch.setOnClickListener {
             val switch: Switch = (it as Switch)
-            greenOn = switch.isChecked
             updateColorDisplay()
         }
         greenSeekBar = findViewById(R.id.greenSeekBar)
@@ -68,7 +59,6 @@ class MainActivity : AppCompatActivity() {
             override fun onProgressChanged (seekBar: SeekBar, progress: Int, fromUser: Boolean){
                 val number = progress.toFloat() / 255.0
                 greenTextView.text = String.format("%.2f", number)
-                greenComponent = progress
                 updateColorDisplay()
             }
             override fun onStartTrackingTouch(seekBar: SeekBar) {}
@@ -80,7 +70,6 @@ class MainActivity : AppCompatActivity() {
         blueSwitch = findViewById(R.id.blueSwitch)
         blueSwitch.setOnClickListener {
             val switch: Switch = (it as Switch)
-            blueOn = switch.isChecked
             updateColorDisplay()
         }
         blueSeekBar = findViewById(R.id.blueSeekBar)
@@ -88,7 +77,6 @@ class MainActivity : AppCompatActivity() {
             override fun onProgressChanged (seekBar: SeekBar, progress: Int, fromUser: Boolean){
                 val number = progress.toFloat() / 255.0
                 blueTextView.text = String.format("%.2f", number)
-                blueComponent = progress
                 updateColorDisplay()
             }
             override fun onStartTrackingTouch(seekBar: SeekBar) {}
@@ -104,16 +92,9 @@ class MainActivity : AppCompatActivity() {
 
         resetButton = findViewById(R.id.resetButton)
         resetButton.setOnClickListener{
-            redComponent = 0
-            greenComponent = 0
-            blueComponent = 0
-
             redSwitch.isChecked = true
-            redOn = true
             greenSwitch.isChecked = true
-            greenOn = true
             blueSwitch.isChecked = true
-            blueOn = true
 
             redSeekBar.progress = 0
             greenSeekBar.progress = 0
@@ -124,9 +105,9 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun updateColorDisplay() {
-        val r = if (redOn) redComponent else 0
-        val g = if (greenOn) greenComponent else 0
-        val b = if (blueOn) blueComponent else 0
+        val r = if (redSwitch.isChecked) redSeekBar.progress else 0
+        val g = if (greenSwitch.isChecked) greenSeekBar.progress else 0
+        val b = if (blueSwitch.isChecked) blueSeekBar.progress else 0
         colorDivider.setBackgroundColor(Color.rgb(r, g, b))
     }
 }
