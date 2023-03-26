@@ -44,20 +44,22 @@
                 android:progressTint="#FF0000"
                 android:thumbTint="#FF0000"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/redTextView"
+                app:layout_constraintEnd_toStartOf="@+id/redEditText"
                 app:layout_constraintStart_toEndOf="@+id/redSwitch"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <TextView
-                android:id="@+id/redTextView"
-                android:layout_width="wrap_content"
+            <EditText
+                android:id="@+id/redEditText"
+                android:layout_width="86dp"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="32dp"
-                android:width="48dp"
-                android:text="@string/redText"
+                android:ems="10"
+                android:hint="0.00"
+                android:inputType="numberDecimal"
+                android:text="0.00"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
+
         </androidx.constraintlayout.widget.ConstraintLayout>
 
 
@@ -159,12 +161,16 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/linearLayout"
-        app:layout_constraintVertical_bias="0.6" />
+        app:layout_constraintVertical_bias="0.32999998" />
 
     <View
         android:id="@+id/colorDivider"
-        android:layout_width="245dp"
-        android:layout_height="130dp"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="32dp"
+        android:layout_marginBottom="32dp"
         android:background="?android:attr/listDivider"
         app:layout_constraintBottom_toTopOf="@+id/linearLayout"
         app:layout_constraintEnd_toEndOf="parent"

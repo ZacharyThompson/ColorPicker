@@ -6,14 +6,19 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.*
+import androidx.datastore.preferences.core.intPreferencesKey
+import androidx.lifecycle.ViewModelProvider
 
 const val LOG_TAG = "MainActivity"
+const val RED_KEY = "red"
+const val GREEN_KEY = "green"
+const val BLUE_KEY = "blue"
 class MainActivity : AppCompatActivity() {
     private lateinit var colorDivider: View
 
     private lateinit var redSwitch: Switch
     private lateinit var redSeekBar: SeekBar
-    private lateinit var redTextView: TextView
+    private lateinit var redEditText: TextView
 
     private lateinit var greenSwitch: Switch
     private lateinit var greenSeekBar: SeekBar
@@ -26,11 +31,12 @@ class MainActivity : AppCompatActivity() {
     private lateinit var resetButton: Button
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        viewModel.loadColor()
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
         // RED SECTION
-        redTextView = findViewById(R.id.redTextView)
+        redEditText = findViewById(R.id.redEditText)
         redSwitch = findViewById(R.id.redSwitch)
         redSwitch.setOnClickListener {
             updateColorDisplay()
@@ -38,8 +44,8 @@ class MainActivity : AppCompatActivity() {
         redSeekBar = findViewById(R.id.redSeekBar)
         redSeekBar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener{
             override fun onProgressChanged (seekBar: SeekBar, progress: Int, fromUser: Boolean){
-                val number = progress.toFloat() / 255.0
-                redTextView.text = String.format("%.2f", number)
+                viewModel.setRedComponent(progress)
+                redEditText.text = String.format("%.2f", progress.toFloat() / 250.0)
                 updateColorDisplay()
             }
             override fun onStartTrackingTouch(seekBar: SeekBar) {}
@@ -55,8 +61,8 @@ class MainActivity : AppCompatActivity() {
         greenSeekBar = findViewById(R.id.greenSeekBar)
         greenSeekBar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener{
             override fun onProgressChanged (seekBar: SeekBar, progress: Int, fromUser: Boolean){
-                val number = progress.toFloat() / 255.0
-                greenTextView.text = String.format("%.2f", number)
+                viewModel.setGreenComponent(progress)
+                greenTextView.text = String.format("%.2f", progress.toFloat() / 250.0)
                 updateColorDisplay()
             }
             override fun onStartTrackingTouch(seekBar: SeekBar) {}
@@ -72,8 +78,8 @@ class MainActivity : AppCompatActivity() {
         blueSeekBar = findViewById(R.id.blueSeekBar)
         blueSeekBar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener{
             override fun onProgressChanged (seekBar: SeekBar, progress: Int, fromUser: Boolean){
-                val number = progress.toFloat() / 255.0
-                blueTextView.text = String.format("%.2f", number)
+                viewModel.setBlueComponent(progress)
+                blueTextView.text = String.format("%.2f", progress.toFloat() / 250.0)
                 updateColorDisplay()
             }
             override fun onStartTrackingTouch(seekBar: SeekBar) {}
@@ -96,15 +102,32 @@ class MainActivity : AppCompatActivity() {
             redSeekBar.progress = 0
             greenSeekBar.progress = 0
             blueSeekBar.progress = 0
+
+            viewModel.resetColor()
             updateColorDisplay()
         }
         updateColorDisplay()
+        redSeekBar.progress = viewModel.getRedComponent()
+        greenSeekBar.progress = viewModel.getGreenComponent()
+        blueSeekBar.progress = viewModel.getBlueComponent()
     }
 
     fun updateColorDisplay() {
-        val r = if (redSwitch.isChecked) redSeekBar.progress else 0
-        val g = if (greenSwitch.isChecked) greenSeekBar.progress else 0
-        val b = if (blueSwitch.isChecked) blueSeekBar.progress else 0
-        colorDivider.setBackgroundColor(Color.rgb(r, g, b))
+        // TODO: make it work with switches
+        Log.i(LOG_TAG, "Color value: ${viewModel.getColorValue()}")
+        colorDivider.setBackgroundColor(viewModel.getColorValue(redSwitch.isChecked, greenSwitch.isChecked, blueSwitch.isChecked))
+        Log.i(LOG_TAG, "Color finished: ${viewModel.getColorValue()}")
+    }
+
+    private val viewModel: ViewModel by lazy {
+        PreferencesRepository.initialize(this)
+        ViewModelProvider(this)[ViewModel::class.java]
+    }
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        Log.d(LOG_TAG, "The counter value is saved")
+        outState.putInt(RED_KEY, viewModel.getRedComponent())
+        outState.putInt(GREEN_KEY, viewModel.getGreenComponent())
+        outState.putInt(BLUE_KEY, viewModel.getBlueComponent())
     }
 }
