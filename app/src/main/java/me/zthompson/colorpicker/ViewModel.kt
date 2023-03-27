@@ -2,6 +2,8 @@ package me.zthompson.colorpicker
 
 import android.graphics.Color
 import android.util.Log
+import androidx.core.graphics.green
+import androidx.core.graphics.red
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.GlobalScope
@@ -9,73 +11,112 @@ import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
 class ViewModel : ViewModel() {
-    private var redComponent: Int = 0
-    private var greenComponent: Int = 0
-    private var blueComponent: Int = 0
+    private var color = Color.rgb(0, 0, 0)
+
+    private var redEnabled = true
+    private var greenEnabled = true
+    private var blueEnabled = true
 
     private val prefs = PreferencesRepository.getRepository()
     fun saveColor() {
         viewModelScope.launch {
-            prefs.saveColor(redComponent, greenComponent, blueComponent)
+            prefs.saveColor(color)
+            prefs.saveToggles(redEnabled, blueEnabled, greenEnabled)
         }
     }
 
     fun loadColor() {
+        Log.i(LOG_TAG, "loadColor called")
         GlobalScope.launch {
-            prefs.red.collectLatest {
-                redComponent = it
+            prefs.color.collectLatest {
+                Log.i(LOG_TAG, "color loaded: $it")
+                color = it
             }
-            prefs.green.collectLatest {
-                greenComponent = it
+        }
+        GlobalScope.launch {
+            prefs.redEnabled.collectLatest {
+                Log.i(LOG_TAG, "redEnabled loaded: $it")
+                redEnabled = it
             }
-            prefs.blue.collectLatest {
-                blueComponent = it
+        }
+        GlobalScope.launch {
+            prefs.greenEnabled.collectLatest {
+                Log.i(LOG_TAG, "greenEnabled loaded: $it")
+                greenEnabled = it
+            }
+        }
+        GlobalScope.launch {
+            prefs.blueEnabled.collectLatest {
+                Log.i(LOG_TAG, "blueEnabled loaded: $it")
+                blueEnabled = it
             }
         }
         Thread.sleep(1000)
     }
 
 
-
-    fun getColorValue(r: Boolean =true, g: Boolean =true, b: Boolean =true): Int {
-        return Color.rgb(
-            if (r) redComponent else 0,
-            if (g) greenComponent else 0,
-            if (b) blueComponent else 0
-        )
+    fun getDisplayColor(): Int {
+        val r = if (redEnabled) Color.red(color) else 0
+        val g = if (greenEnabled) Color.green(color) else 0
+        val b = if (blueEnabled) Color.blue(color) else 0
+        return Color.rgb(r, g, b)
     }
 
-    fun getRedComponent(): Int {
-        return redComponent
+    fun getColor(): Int {
+        return color
     }
+
     fun setRedComponent(n: Int) {
-        redComponent = n
-        Log.d(LOG_TAG, "Red set to: $n")
+        val r = n
+        val g = Color.green(color)
+        val b = Color.blue(color)
+        color = Color.rgb(r, g, b)
         saveColor()
     }
 
-    fun getGreenComponent(): Int {
-        return greenComponent
-    }
     fun setGreenComponent(n: Int) {
-        greenComponent = n
-        Log.d(LOG_TAG, "Green set to: $n")
+        val r = Color.red(color)
+        val g = n
+        val b = Color.blue(color)
+        color = Color.rgb(r, g, b)
         saveColor()
     }
 
-    fun getBlueComponent(): Int {
-        return blueComponent
-    }
     fun setBlueComponent(n: Int) {
-        blueComponent = n
-        Log.d(LOG_TAG, "Blue set to: $n")
+        val r = Color.red(color)
+        val g = Color.green(color)
+        val b = n
+        color = Color.rgb(r, g, b)
         saveColor()
     }
 
     fun resetColor() {
-        redComponent = 0
-        greenComponent = 0
-        blueComponent = 0
+        redEnabled = true
+        greenEnabled = true
+        blueEnabled = true
+
+        color = Color.rgb(0, 0, 0)
         saveColor()
+    }
+
+    fun setRedEnabled(b: Boolean) {
+        redEnabled = b
+    }
+    fun isRedEnabled(): Boolean {
+        return redEnabled
+    }
+
+    fun setGreenEnabled(b: Boolean) {
+        greenEnabled = b
+    }
+    fun isGreenEnabled(): Boolean {
+        return greenEnabled
+    }
+
+    fun setBlueEnabled(b: Boolean) {
+        blueEnabled = b
+    }
+    fun isBlueEnabled(): Boolean {
+        return blueEnabled
     }
 }

@@ -3,28 +3,30 @@ package me.zthompson.colorpicker
 import android.content.Context
 import android.util.Log
 import androidx.datastore.core.DataStore
-import androidx.datastore.preferences.core.PreferenceDataStoreFactory
-import androidx.datastore.preferences.core.Preferences
-import androidx.datastore.preferences.core.edit
-import androidx.datastore.preferences.core.intPreferencesKey
+import androidx.datastore.preferences.core.*
 import androidx.datastore.preferences.preferencesDataStoreFile
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.map
 
 class PreferencesRepository private constructor(private val dataStore: DataStore<Preferences>) {
-    private val RED_KEY = intPreferencesKey("red")
-    private val GREEN_KEY = intPreferencesKey("green")
-    private val BLUE_KEY = intPreferencesKey("blue")
+    private val COLOR_KEY = intPreferencesKey("color")
+    private val RED_ENABLED_KEY = booleanPreferencesKey("red_enabled")
+    private val GREEN_ENABLED_KEY = booleanPreferencesKey("green_enabled")
+    private val BLUE_ENABLED_KEY = booleanPreferencesKey("blue_enabled")
 
-    val red: Flow<Int> = this.dataStore.data.map { prefs ->
-        prefs[RED_KEY] ?: 0
+    val color: Flow<Int> = this.dataStore.data.map { prefs ->
+        prefs[COLOR_KEY] ?: 0
     }.distinctUntilChanged()
-    val green: Flow<Int> = this.dataStore.data.map { prefs ->
-        prefs[GREEN_KEY] ?: 0
+
+    val redEnabled: Flow<Boolean> = this.dataStore.data.map { prefs ->
+        prefs[RED_ENABLED_KEY] ?: true
+    }
+    val greenEnabled: Flow<Boolean> = this.dataStore.data.map { prefs ->
+        prefs[GREEN_ENABLED_KEY] ?: true
     }.distinctUntilChanged()
-    val blue: Flow<Int> = this.dataStore.data.map { prefs ->
-        prefs[BLUE_KEY] ?: 0
+    val blueEnabled: Flow<Boolean> = this.dataStore.data.map { prefs ->
+        prefs[BLUE_ENABLED_KEY] ?: true
     }.distinctUntilChanged()
 
     private suspend fun saveIntValue(key: Preferences.Key<Int>, value: Int) {
@@ -32,11 +34,20 @@ class PreferencesRepository private constructor(private val dataStore: DataStore
             prefs[key] = value
         }
     }
+    private suspend fun saveBoolValue(key: Preferences.Key<Boolean>, value: Boolean) {
+        this.dataStore.edit { prefs ->
+            prefs[key] = value
+        }
+    }
 
-    suspend fun saveColor(r: Int, g: Int, b: Int) {
-        saveIntValue(RED_KEY, r)
-        saveIntValue(GREEN_KEY, g)
-        saveIntValue(BLUE_KEY, b)
+    suspend fun saveColor(c: Int) {
+        saveIntValue(COLOR_KEY, c)
+    }
+
+    suspend fun saveToggles(r: Boolean, g: Boolean, b: Boolean) {
+        saveBoolValue(RED_ENABLED_KEY, r)
+        saveBoolValue(GREEN_ENABLED_KEY, g)
+        saveBoolValue(BLUE_ENABLED_KEY, b)
     }
 
 

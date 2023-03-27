@@ -44,17 +44,21 @@
                 android:progressTint="#FF0000"
                 android:thumbTint="#FF0000"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/redEditText"
+                app:layout_constraintEnd_toStartOf="@+id/redTextView"
                 app:layout_constraintStart_toEndOf="@+id/redSwitch"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <EditText
-                android:id="@+id/redEditText"
+                android:id="@+id/redTextView"
                 android:layout_width="86dp"
                 android:layout_height="wrap_content"
                 android:ems="10"
+                android:focusable="auto"
                 android:hint="0.00"
+                android:imeOptions="actionDone"
                 android:inputType="numberDecimal"
+                android:selectAllOnFocus="true"
+                android:singleLine="true"
                 android:text="0.00"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -94,13 +98,16 @@
                 app:layout_constraintStart_toEndOf="@+id/greenSwitch"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <TextView
+            <EditText
                 android:id="@+id/greenTextView"
-                android:layout_width="wrap_content"
+                android:layout_width="86dp"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="32dp"
-                android:width="48dp"
-                android:text="@string/greenText"
+                android:ems="10"
+                android:focusable="auto"
+                android:imeOptions="actionDone"
+                android:inputType="numberDecimal"
+                android:selectAllOnFocus="true"
+                android:text="@string/_0_00"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -137,13 +144,16 @@
                 app:layout_constraintStart_toEndOf="@+id/blueSwitch"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <TextView
+            <EditText
                 android:id="@+id/blueTextView"
-                android:layout_width="wrap_content"
+                android:layout_width="86dp"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="32dp"
-                android:width="48dp"
-                android:text="@string/blueText"
+                android:ems="10"
+                android:focusable="auto"
+                android:imeOptions="actionDone"
+                android:inputType="numberDecimal"
+                android:selectAllOnFocus="true"
+                android:text="@string/_0_00"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
