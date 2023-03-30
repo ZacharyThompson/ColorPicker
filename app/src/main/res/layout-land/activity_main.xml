@@ -55,12 +55,12 @@
                 android:layout_height="wrap_content"
                 android:ems="10"
                 android:focusable="auto"
-                android:hint="0.00"
                 android:imeOptions="actionDone"
                 android:inputType="numberDecimal"
                 android:selectAllOnFocus="true"
                 android:singleLine="true"
-                android:text="0.00"
+                android:text="@string/_0_00"
+                android:textSize="20sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -108,6 +108,7 @@
                 android:inputType="numberDecimal"
                 android:selectAllOnFocus="true"
                 android:text="@string/_0_00"
+                android:textSize="20sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -154,6 +155,7 @@
                 android:inputType="numberDecimal"
                 android:selectAllOnFocus="true"
                 android:text="@string/_0_00"
+                android:textSize="20sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -164,6 +166,7 @@
         android:id="@+id/resetButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
         android:text="@string/resetButtonText"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

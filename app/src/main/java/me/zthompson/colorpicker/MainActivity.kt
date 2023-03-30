@@ -7,12 +7,16 @@ import android.util.Log
 import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.widget.*
+import androidx.core.graphics.blue
+import androidx.core.graphics.green
+import androidx.core.graphics.red
 import androidx.lifecycle.ViewModelProvider
 
 const val LOG_TAG = "MainActivity"
-const val RED_KEY = "red"
-const val GREEN_KEY = "green"
-const val BLUE_KEY = "blue"
+const val COLOR_KEY = "color"
+const val RED_ENABLED_KEY = "red_enabled"
+const val GREEN_ENABLED_KEY = "green_enabled"
+const val BLUE_ENABLED_KEY = "blue_enabled"
 class MainActivity : AppCompatActivity() {
     private lateinit var colorDivider: View
 
@@ -39,7 +43,7 @@ class MainActivity : AppCompatActivity() {
 
         // RED SECTION
         redTextView = findViewById(R.id.redTextView)
-        redTextView.text = String.format("%.2f", Color.red(viewModel.getColor()).toFloat() / 255.0)
+        redTextView.text = String.format("%.2f", viewModel.getColor().red.toFloat() / 255.0)
         redTextView.setOnEditorActionListener { v, actionId, event ->
             when (actionId) {
                 EditorInfo.IME_ACTION_DONE -> {
@@ -66,7 +70,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         redSeekBar = findViewById(R.id.redSeekBar)
-        redSeekBar.progress = Color.red(viewModel.getColor())
+        redSeekBar.progress = viewModel.getColor().red
         redSeekBar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener{
             override fun onProgressChanged (seekBar: SeekBar, progress: Int, fromUser: Boolean){
                 redTextView.text = String.format("%.2f", progress.toFloat() / 255.0)
@@ -78,7 +82,7 @@ class MainActivity : AppCompatActivity() {
 
         // GREEN SECTION
         greenTextView = findViewById(R.id.greenTextView)
-        greenTextView.text = String.format("%.2f", Color.green(viewModel.getColor()).toFloat() / 255.0)
+        greenTextView.text = String.format("%.2f", viewModel.getColor().green.toFloat() / 255.0)
         greenTextView.setOnEditorActionListener { v, actionId, event ->
             when (actionId) {
                 EditorInfo.IME_ACTION_DONE -> {
@@ -105,7 +109,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         greenSeekBar = findViewById(R.id.greenSeekBar)
-        greenSeekBar.progress = Color.green(viewModel.getColor())
+        greenSeekBar.progress = viewModel.getColor().green
         greenSeekBar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener{
             override fun onProgressChanged (seekBar: SeekBar, progress: Int, fromUser: Boolean){
                 greenTextView.text = String.format("%.2f", progress.toFloat() / 255.0)
@@ -117,7 +121,7 @@ class MainActivity : AppCompatActivity() {
 
         // BLUE SECTION
         blueTextView = findViewById(R.id.blueTextView)
-        blueTextView.text = String.format("%.2f", Color.blue(viewModel.getColor()).toFloat() / 255.0)
+        blueTextView.text = String.format("%.2f", viewModel.getColor().blue.toFloat() / 255.0)
         blueTextView.setOnEditorActionListener { v, actionId, event ->
             when (actionId) {
                 EditorInfo.IME_ACTION_DONE -> {
@@ -144,7 +148,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         blueSeekBar = findViewById(R.id.blueSeekBar)
-        blueSeekBar.progress = Color.blue(viewModel.getColor())
+        blueSeekBar.progress = viewModel.getColor().blue
         blueSeekBar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener{
             override fun onProgressChanged (seekBar: SeekBar, progress: Int, fromUser: Boolean){
                 blueTextView.text = String.format("%.2f", progress.toFloat() / 255.0)
@@ -197,6 +201,10 @@ class MainActivity : AppCompatActivity() {
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
-        Log.d(LOG_TAG, "The color value is saved")
+        Log.d(LOG_TAG, "The color state is saved")
+        outState.putInt(COLOR_KEY, viewModel.getColor())
+        outState.putBoolean(RED_ENABLED_KEY, viewModel.isRedEnabled())
+        outState.putBoolean(GREEN_ENABLED_KEY, viewModel.isBlueEnabled())
+        outState.putBoolean(BLUE_ENABLED_KEY, viewModel.isGreenEnabled())
     }
 }

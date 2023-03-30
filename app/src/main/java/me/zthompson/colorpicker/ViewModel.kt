@@ -2,6 +2,7 @@ package me.zthompson.colorpicker
 
 import android.graphics.Color
 import android.util.Log
+import androidx.core.graphics.blue
 import androidx.core.graphics.green
 import androidx.core.graphics.red
 import androidx.lifecycle.ViewModel
@@ -21,7 +22,7 @@ class ViewModel : ViewModel() {
     fun saveColor() {
         viewModelScope.launch {
             prefs.saveColor(color)
-            prefs.saveToggles(redEnabled, blueEnabled, greenEnabled)
+            prefs.saveToggles(redEnabled, greenEnabled, blueEnabled)
         }
     }
 
@@ -56,9 +57,9 @@ class ViewModel : ViewModel() {
 
 
     fun getDisplayColor(): Int {
-        val r = if (redEnabled) Color.red(color) else 0
-        val g = if (greenEnabled) Color.green(color) else 0
-        val b = if (blueEnabled) Color.blue(color) else 0
+        val r = if (redEnabled) color.red else 0
+        val g = if (greenEnabled) color.green else 0
+        val b = if (blueEnabled) color.blue else 0
         return Color.rgb(r, g, b)
     }
 
@@ -67,26 +68,17 @@ class ViewModel : ViewModel() {
     }
 
     fun setRedComponent(n: Int) {
-        val r = n
-        val g = Color.green(color)
-        val b = Color.blue(color)
-        color = Color.rgb(r, g, b)
+        color = Color.rgb(n, color.green, color.blue)
         saveColor()
     }
 
     fun setGreenComponent(n: Int) {
-        val r = Color.red(color)
-        val g = n
-        val b = Color.blue(color)
-        color = Color.rgb(r, g, b)
+        color = Color.rgb(color.red, n, color.blue)
         saveColor()
     }
 
     fun setBlueComponent(n: Int) {
-        val r = Color.red(color)
-        val g = Color.green(color)
-        val b = n
-        color = Color.rgb(r, g, b)
+        color = Color.rgb(color.red, color.green, n)
         saveColor()
     }
 
